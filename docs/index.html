@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tetorica-groove-slime</title>
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      color: #eee;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    h1 { font-size: 2rem; margin-bottom: 0.4em; }
+    p { color: #aaa; max-width: 480px; text-align: center; line-height: 1.7; margin-bottom: 2em; }
+    .demos { display: flex; flex-direction: column; gap: 16px; width: 100%; max-width: 480px; }
+    a.demo-link {
+      display: block;
+      padding: 18px 24px;
+      background: #1e1e2e;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #eee;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    a.demo-link:hover { background: #2a2a3e; border-color: #666; }
+    a.demo-link .title { font-size: 1.1rem; font-weight: bold; }
+    a.demo-link .desc { font-size: 0.85rem; color: #888; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <h1>tetorica-groove-slime</h1>
+  <p>
+    ループ音楽を再生しながら、スライム（またはモンスター）キャラクターが<br>
+    グルーブに反応してリアルタイムにアニメーションするプロトタイプ。<br>
+    最終的には Jukebox 的な「手元に置いておきたいデスクトップおもちゃ」。
+  </p>
+  <div class="demos">
+    <a class="demo-link" href="./demos/groove-slime/">
+      <div class="title">Groove Slime Demo</div>
+      <div class="desc">35曲のループ音楽 × 4バンドビジュアライザー</div>
+    </a>
+  </div>
+</body>
+</html>
