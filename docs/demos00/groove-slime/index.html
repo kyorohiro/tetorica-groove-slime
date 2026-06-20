@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chill Loop — Tone.js Demo</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0f0f13;
+      color: #c8c8d4;
+      font-family: monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      gap: 24px;
+    }
+    h1 { font-size: 1.1rem; letter-spacing: 0.15em; color: #7878a8; }
+
+    #play-btn {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      border: 2px solid #5555aa;
+      background: #1a1a2e;
+      color: #aaaaee;
+      font-size: 1.6rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    #play-btn:hover { background: #252540; }
+    #play-btn.playing { border-color: #7777ff; color: #bbbbff; }
+
+    #chord-display {
+      font-size: 1.5rem;
+      letter-spacing: 0.1em;
+      color: #9999cc;
+      min-width: 120px;
+      text-align: center;
+    }
+    #bar-display {
+      font-size: 0.75rem;
+      color: #555577;
+      letter-spacing: 0.08em;
+    }
+
+    .steps {
+      display: flex; gap: 4px;
+    }
+    .step {
+      width: 14px; height: 14px;
+      border-radius: 2px;
+      background: #1e1e2e;
+      border: 1px solid #2a2a3e;
+      transition: background 0.05s;
+    }
+    .step.kick   { background: #553355; }
+    .step.snare  { background: #335555; }
+    .step.active { border-color: #6666bb; }
+
+    .song-tabs { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; max-width: 640px; }
+    .song-btn {
+      padding: 5px 12px; border-radius: 6px;
+      border: 1px solid #333355; background: #1a1a2e;
+      color: #6666aa; font-family: monospace; font-size: 0.72rem;
+      cursor: pointer; letter-spacing: 0.06em; transition: background 0.12s;
+    }
+    .song-btn:hover  { background: #252540; color: #9999cc; }
+    .song-btn.active { border-color: #5555aa; color: #aaaaee; background: #222240; }
+
+    #bpm-row {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.78rem; color: #555577;
+    }
+    input[type=range] { accent-color: #6666aa; width: 120px; }
+
+    /* ---- frequency band circles ---- */
+    #freq-bands {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .freq-band {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .freq-dot {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      transition: transform 0.05s ease, box-shadow 0.05s ease, opacity 0.05s ease;
+      opacity: 0.18;
+    }
+    .freq-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      opacity: 0.4;
+    }
+    .freq-band:nth-child(1) .freq-dot { color: #ff6b8a; background: #ff6b8a22; }
+    .freq-band:nth-child(2) .freq-dot { color: #ffd93d; background: #ffd93d22; }
+    .freq-band:nth-child(3) .freq-dot { color: #6bcb77; background: #6bcb7722; }
+    .freq-band:nth-child(4) .freq-dot { color: #4d96ff; background: #4d96ff22; }
+  </style>
+  <script type="module" crossorigin src="./assets/index-BEuGE4nS.js"></script>
+</head>
+<body>
+  <h1>CHILL LOOP</h1>
+
+  <div class="song-tabs">
+    <button class="song-btn" data-song="0">Chill Loop</button>
+    <button class="song-btn" data-song="1">Rain Window</button>
+    <button class="song-btn" data-song="2">Midnight Keys</button>
+    <button class="song-btn" data-song="3">Duo Dusk</button>
+    <button class="song-btn" data-song="4">8bit Blues</button>
+    <button class="song-btn" data-song="5">Dark Orbit</button>
+    <button class="song-btn" data-song="6">Jazz Wah</button>
+    <button class="song-btn" data-song="7">Rock Edge</button>
+    <button class="song-btn" data-song="8">Tremolo Sky</button>
+    <button class="song-btn" data-song="9">Neon Funk</button>
+    <button class="song-btn" data-song="10">Shimmer</button>
+    <button class="song-btn" data-song="11">Lofi Tape</button>
+    <button class="song-btn" data-song="12">STARLIGHT</button>
+    <button class="song-btn" data-song="13">JAZZ NIGHT</button>
+    <button class="song-btn" data-song="14">HERO CALL</button>
+    <button class="song-btn" data-song="15">CITY GLOW</button>
+    <button class="song-btn" data-song="16">CANON LIGHT</button>
+    <button class="song-btn" data-song="17">IPANEMA NIGHTS</button>
+    <button class="song-btn" data-song="18">ONE DROP</button>
+    <button class="song-btn" data-song="19">RIO BEAT</button>
+    <button class="song-btn" data-song="20">COLD SYNTH</button>
+    <button class="song-btn" data-song="21">AMEN WAVE</button>
+    <button class="song-btn" data-song="22">STARFIELD</button>
+    <button class="song-btn" data-song="23">HOUSE DRIVE</button>
+    <button class="song-btn" data-song="24">TRAP NIGHT</button>
+    <button class="song-btn" data-song="25">GROOVE MACHINE</button>
+    <button class="song-btn" data-song="26">FLAMENCO FUEGO</button>
+    <button class="song-btn" data-song="27">SPAIN NIGHTS</button>
+    <button class="song-btn" data-song="28">SEVEN PULSE</button>
+    <button class="song-btn" data-song="29">POLY GROOVE</button>
+    <button class="song-btn" data-song="30">SOUL GROOVE</button>
+    <button class="song-btn" data-song="31">PRAISE SONG</button>
+    <button class="song-btn" data-song="32">NEON SEOUL</button>
+    <button class="song-btn" data-song="33">FUSION FIVE</button>
+    <button class="song-btn" data-song="34">MISTY GLEN</button>
+  </div>
+
+  <button id="play-btn">▶</button>
+
+  <div id="chord-display">—</div>
+  <div id="bar-display">bar — / 8</div>
+
+  <div id="freq-bands">
+    <div class="freq-band">
+      <div class="freq-dot" id="band-kick"></div>
+      <span class="freq-label">KICK</span>
+    </div>
+    <div class="freq-band">
+      <div class="freq-dot" id="band-snare"></div>
+      <span class="freq-label">SNARE</span>
+    </div>
+    <div class="freq-band">
+      <div class="freq-dot" id="band-mid"></div>
+      <span class="freq-label">MID</span>
+    </div>
+    <div class="freq-band">
+      <div class="freq-dot" id="band-hi"></div>
+      <span class="freq-label">HI</span>
+    </div>
+  </div>
+
+  <div class="steps" id="steps"></div>
+
+  <div id="bpm-row">
+    BPM <input type="range" id="bpm-slider" min="60" max="120" value="80" />
+    <span id="bpm-val">80</span>
+  </div>
+
+</body>
+</html>
